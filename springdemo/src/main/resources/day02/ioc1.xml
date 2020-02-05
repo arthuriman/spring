@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 配置UserDaoImpl，由Spring进行创建和管理 -->
+	<bean id="userDao" class="cn.ekgc.spring.day02.dao.impl.UserDaoImpl"></bean>
+	<!-- 配置UserServiceImpl，由Spring创建和管理 -->
+	<bean id="userService" class="cn.ekgc.spring.day02.service.impl.UserServiceImpl">
+		<!--
+			当Spring在创建该对象的时候，同时需要Spring向该对象的userDao属性设定相应的值，
+			那么这个过程就称之为依赖注入（DI），
+			只需要告知Spring该对象的哪些属性，需要什么样的值，Spring会自己将该值赋予该属性，
+			如果此时的属性需要的是一个对象，那么使用ref来进行，ref的值，就是对应的bean的id
+		-->
+		<property name="userDao" ref="userDao"/>
+	</bean>
+	
+	<bean id="user" class="cn.ekgc.spring.day02.User">
+		<!-- 使用setter方法注入属性的值 -->
+		<!--
+			当属性需要的是一个bean的对象的时候，使用的是ref来进行，
+			而基本类型和String则使用了value
+		-->
+		<property name="username" value="常星"/>
+		<!-- 当使用构造方法注入的时候，本质上就是在明确的告知，Spring在创建对象的时候，所使用的那个构造方法 -->
+		<!-- 
+		<constructor-arg index="0" value="常星"/>
+		<constructor-arg index="1" value="1"/>
+		-->
+	</bean>
+	<bean id="student" class="cn.ekgc.spring.day02.Student">
+		<property name="name" value="常星"/>
+		<property name="score" value="98.5"/>
+		<!-- 当属性的类型为一个集合时 -->
+		<property name="cityList">
+			<list>
+				<value>西安</value>
+				<value>咸阳</value>
+				<value>渭南</value>
+				<value>汉中</value>
+			</list>
+		</property>
+		<property name="courseMap">
+			<map>
+				<entry key="1" value="Java基础"/>
+				<entry key="2" value="Java高级"/>
+				<entry key="3" value="数据库"/>
+			</map>
+		</property>
+	</bean>
+</beans>
